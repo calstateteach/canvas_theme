@@ -1,0 +1,78 @@
+/* Styles for customizations to SpeedGrader page.
+06.11.2018 tps Created.
+*/
+/* Bordered form */
+form.cst-modal {
+    border: 3px solid #f1f1f1;
+}
+
+/* Add padding to containers */
+.cst-container {
+    padding: 16px;
+}
+
+/* The Modal (background) */
+.cst-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.cst-modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    height: 500px;  /* Set height so we can use scrollers */
+}
+
+/* Area for scrollable content. Must be a fixed height for scrollers to work? */
+.cst-scrollable-content {
+    height: 420px;
+    overflow: auto;
+}
+
+/* The Close Button */
+.cst-close {
+    /* Position it in the top right corner outside of the modal */
+    /*position: absolute;*/
+    /*right: 25px;*/
+    float: right;
+    top: 0; 
+    margin-right: 12px;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.cst-close:hover,
+.cst-close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.cst-animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
