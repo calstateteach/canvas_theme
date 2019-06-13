@@ -9,7 +9,7 @@ Custom CSS & JavaScript for [Canvas](https://www.canvaslms.com/) that add functi
 
 ### Prerequisites
 
-The JavaScript AJAX calls hit Web service endpoints implemented by the *[lti_dashboard](https://github.com/calstateteach/lti_dashboard)* Web app.
+The JavaScript AJAX calls Web service endpoints implemented by the *[lti_dashboard](https://github.com/calstateteach/lti_dashboard)* Web app.
 
 ## Authors
 
