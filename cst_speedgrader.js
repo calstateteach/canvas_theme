@@ -7,9 +7,11 @@
 08.17.2018 tps Fix for DOM changes to "Grade" label.
 08.23.2018 tps Hack assignment description HTML to reveal faculty-only DIV.
 09.21.2018 tps Replace assignment details "Due: No Due Date" text.
+06.22.2019 tps Fix for error introduced by Canvas 6/22/2019 release. SpeedGrader icons now hidden instead of removed.
 */
 
-const FDB_API_BASE_URL = 'https://ourdomain.com/api/';
+
+const FDB_API_BASE_URL = 'https://ourdomain.net/api/';
 
 document.addEventListener("DOMContentLoaded", function(event) {
  
@@ -23,9 +25,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     insertAssignmentNavigation(courseId, assId);
 
-    // Remove the SpeedGrader icons from the UI
+    // Hide the SpeedGrader icons from the user
     const speedGraderIcons = document.getElementById('speedgrader-icons');
-    if (speedGraderIcons) speedGraderIcons.remove();
+    if (speedGraderIcons) speedGraderIcons.style.display = 'none';
+    // if (speedGraderIcons) speedGraderIcons.remove();
     
     // Change label on grade pulldown for pass/fail type, if it exists.
     // Try to detect pass/fail pulldown.
@@ -173,7 +176,7 @@ function addAssignmentNavigationArrows(prevAssignmentId, nextAssignmentId) {
 /**
  * Redirect browser to another assignment.
  * Build prev & next assignment links by substituting assignment ID query in current URL, which looks like:
- * "https://ourdomain.instructure.com/courses/201/gradebook/speed_grader?assignment_id=3379#%7B%22student_id%22%3A%222047%22%7D"
+ * "https://ourdomain.instructure.com/courses/201/gradebook/speed_grader?assignment_id=3479#%7B%22student_id%22%3A%245047%22%7D"
  */
 function redirectAssignmentLocation(assignmentId) {
   window.location.href
