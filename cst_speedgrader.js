@@ -8,13 +8,29 @@
 08.23.2018 tps Hack assignment description HTML to reveal faculty-only DIV.
 09.21.2018 tps Replace assignment details "Due: No Due Date" text.
 06.22.2019 tps Fix for error introduced by Canvas 6/22/2019 release. SpeedGrader icons now hidden instead of removed.
+10.14.2019 tps Fix for error introduced by 10/19/2019 release. Order when script is executed has changed.
+12.05.2019 tps Modify Canvas assignment pages that overrides LTI launch of iSupervision app
+               to launch CSU hosted archive version of app instead.
+12.24.2019 tps Override LTI launch of annotation-only tool on Canvas assignment pages.
 */
 
+const FDB_API_BASE_URL = 'https://ourdomain.com/';
 
-const FDB_API_BASE_URL = 'https://ourdomain.net/api/';
+// Make sure enhancement are added regardless of when this script is executed. 
+if (document.readyState === 'loading') {  // Loading hasn't finished yet
+  document.addEventListener('DOMContentLoaded', addEnhancements);
+} else {  // `DOMContentLoaded` has already fired
+  addEnhancements();
+}
 
-document.addEventListener("DOMContentLoaded", function(event) {
- 
+function addEnhancements() {
+  addCstSpeedgraderEnhancements();
+  overrideISupervisionLtiLaunch();
+  overrideAnnotationOnlyLtiLaunch();
+}
+
+function addCstSpeedgraderEnhancements() { 
+
   if (location.href.includes('/gradebook/speed_grader?assignment_id=')) {
 
     // Extract a course ID from URL path like "/courses/197/gradebook/speed_grader"
@@ -90,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     
   } // end on SpeedGrader page
-}); // end DOMContentLoaded
+}
 
 
 /**
@@ -176,7 +192,7 @@ function addAssignmentNavigationArrows(prevAssignmentId, nextAssignmentId) {
 /**
  * Redirect browser to another assignment.
  * Build prev & next assignment links by substituting assignment ID query in current URL, which looks like:
- * "https://ourdomain.instructure.com/courses/201/gradebook/speed_grader?assignment_id=3479#%7B%22student_id%22%3A%245047%22%7D"
+ * "https://ourdomain.instructure.com/courses/13/gradebook/speed_grader?assignment_id=5580#%7B%22student_id%22%3A%22767%22%7D"
  */
 function redirectAssignmentLocation(assignmentId) {
   window.location.href
@@ -242,4 +258,71 @@ function loadAssignmentDescription(courseId, assignmentId) {
       }
     } // end request ready
   } // end request handler
+}
+
+
+/**
+ * Enhancement to Canvas assignment pages that overrides LTI launch of iSupervision app
+   to launch CSU hosted archive version of app instead.
+   12.05.2019 tps Created.
+ */
+function overrideISupervisionLtiLaunch() { 
+
+  // Only target assignment pages with URLs like:
+  // https://ourdomain.instructure.com/courses/418/assignments/9732
+
+  if (location.href.match(/\/courses\/\d+\/assignments\/\d+$/)) {
+    
+    // URLs of external apps we want to override
+    const appUrls = [
+      "https://ourdomain1.com/",
+      "https://ourdomain2.com/",
+      "https://ourdomain3.com/"
+    ];
+    
+    var ltiForm = document.getElementById('tool_form');
+    if (ltiForm && appUrls.includes(ltiForm.action)) {
+
+      // Launch archive version of app instead.
+      ltiForm.action = "https://ourdomain.com/"
+
+      // Add some text explaining what we're doing.
+      var loadTabs = ltiForm.getElementsByClassName('load_tab');
+      if (loadTabs.length > 0) {
+        loadTabs[0].appendChild(document.createTextNode('This will load the archive version of iSupervision.'));
+      }
+    }
+  }
+}
+
+/**
+ * Enhancement to Canvas assignment pages that overrides LTI launch of annotation-only app
+   to launch CSU hosted version of app instead.
+   12.24.2019 tps Created.
+ */
+function overrideAnnotationOnlyLtiLaunch() { 
+
+  // Only target assignment pages with URLs like:
+  // https://ourdomain.instructure.com/courses/42/assignments/897
+
+  if (location.href.match(/\/courses\/\d+\/assignments\/\d+$/)) {
+    
+    // URLs of external apps we want to override
+    const appUrls = [
+      "https://ross.critiqueit.com/lti/canvas/"
+    ];
+    
+    var ltiForm = document.getElementById('tool_form');
+    if (ltiForm && appUrls.includes(ltiForm.action)) {
+
+      // Launch archive version of app instead.
+      ltiForm.action = "https://ourdomain.com/"
+
+      // Add some text explaining what we're doing.
+      var loadTabs = ltiForm.getElementsByClassName('load_tab');
+      if (loadTabs.length > 0) {
+        loadTabs[0].appendChild(document.createTextNode('This will load the archive version of the annotation tool.'));
+      }
+    }
+  }
 }
